@@ -50,16 +50,15 @@ type Pet = {
         }
     },
     petsByBreed: async(_:unknown, args: {breed: string}):Promise<Pet[]> => {
-        const mongoPets = await petModel.find().exec();
-        const filterPets = mongoPets.filter((pet) => {pet.breed === args.breed});
-        const pets = filterPets.map((pet):Pet => {
-          return {
-              id: pet._id.toString(),
-              name: pet.name,
-              breed: pet.breed,
-          }
-        })
-        return pets;
+        const pets = await petModel.find().where("breed").equals(args.breed).exec();
+        const finalpets = pets.map((pet):Pet => {
+            return {
+                id: pet._id.toString(),
+                name: pet.name,
+                breed: pet.breed,
+            }
+          })
+        return finalpets;
     }
   }
   

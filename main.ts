@@ -30,7 +30,7 @@ const server = new ApolloServer({
 
 const {url} = await startStandaloneServer(server, {
   listen: {
-    port: 3001
+    port: 3003
   }
 })
 console.info(`Server is listening if you ask at ${url}`);
