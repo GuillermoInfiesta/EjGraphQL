@@ -1,4 +1,3 @@
-import { GraphQLError } from "../../../../../../../../AppData/Local/deno/npm/registry.npmjs.org/graphql/16.8.1/index.js";
 import { petModel, petModelType } from "../collections/Pet.ts";
 
 type Pet = {
@@ -42,7 +41,7 @@ type Pet = {
     },
     pet: async(_: unknown, args: {id: string}):Promise<Pet> => {
         const pet = await petModel.findById(args.id).exec();
-        if(!pet) throw new GraphQLError(`Pet not found`);
+        if(!pet) throw new Error(`Pet not found`);
         return{
             id: pet._id.toString(),
             name: pet.name,
