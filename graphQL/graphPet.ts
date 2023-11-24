@@ -17,6 +17,7 @@ type Pet = {
     type Query{
       pets: [Pet!]!
       pet(id: ID!): Pet!
+      petsByBreed(breed: String!): [Pet!]!
     }
   
     type Mutation{
@@ -48,6 +49,18 @@ type Pet = {
             breed: pet.breed
         }
     },
+    petsByBreed: async(_:unknown, args: {breed: string}):Promise<Pet[]> => {
+        const mongoPets = await petModel.find().exec();
+        const filterPets = mongoPets.filter((pet) => {pet.breed === args.breed});
+        const pets = filterPets.map((pet):Pet => {
+          return {
+              id: pet._id.toString(),
+              name: pet.name,
+              breed: pet.breed,
+          }
+        })
+        return pets;
+    }
   }
   
   export const Mutation = {
